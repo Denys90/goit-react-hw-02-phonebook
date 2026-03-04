@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { ChangeEvent, Component, FormEvent } from 'react';
 
 import Form from '../Form/Form';
 import Filter from '../Filter/Filter';
@@ -8,8 +8,24 @@ import Title from '../Styled/Title.styled';
 import MiniTitle from '../Styled/MiniTitle.styled';
 import { nanoid } from 'nanoid';
 
-class Phonebook extends Component {
-  state = {
+type Contact = {
+  id: string;
+  name: string;
+  number: string;
+};
+
+type SrtingsKeys = 'name' | 'number' | 'filter';
+
+interface PhonebookState {
+  contacts: Contact[];
+  filter: string;
+  name: string;
+  number: string;
+  showDeleted: boolean;
+}
+
+class Phonebook extends Component<{}, PhonebookState> {
+  state: PhonebookState = {
     contacts: [],
     filter: '',
     name: '',
@@ -17,13 +33,22 @@ class Phonebook extends Component {
     showDeleted: false,
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'name':
+      case 'number':
+      case 'filter':
+    }
+    this.setState({ [name]: value } as unknown as Pick<
+      PhonebookState,
+      SrtingsKeys
+    >);
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const { name, contacts } = this.state;
     if (
       contacts.some(
@@ -46,13 +71,13 @@ class Phonebook extends Component {
     }));
   };
 
-  deleteContact = id => {
+  deleteContact = (id: string) => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
 
-  filter = value => {
+  filter = (value: string) => {
     this.setState({ filter: value });
   };
 

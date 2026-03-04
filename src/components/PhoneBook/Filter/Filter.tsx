@@ -1,7 +1,12 @@
 import React from 'react';
 import Input from '../Styled/Input.styled';
 
-function Filter({ value, onChange }) {
+type FilterProps = {
+  value: string;
+  onChange: (newVelue: string) => void;
+};
+
+function Filter({ value, onChange }: FilterProps) {
   return (
     <Input
       type="text"

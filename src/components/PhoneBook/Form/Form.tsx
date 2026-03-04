@@ -1,7 +1,14 @@
 import React from 'react';
 import FormS from '../Styled/FormS.styled';
 
-function Form({ name, number, onChange, onSubmit }) {
+type FormProps = {
+  name: string;
+  number: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+};
+
+function Form({ name, number, onChange, onSubmit }: FormProps) {
   return (
     <FormS onSubmit={onSubmit}>
       <label htmlFor="Name">
